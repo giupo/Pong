@@ -1,0 +1,6 @@
+framework module tinyxml {
+  umbrella header "Pods-tinyxml-umbrella.h"
+
+  export *
+  module * { export * }
+}

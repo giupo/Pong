@@ -1,0 +1,13 @@
+PODS:
+  - chipmunk-physics (6.1.3)
+  - tinyxml (2.1.0)
+
+DEPENDENCIES:
+  - chipmunk-physics (~> 6.1)
+  - tinyxml (~> 2.1)
+
+SPEC CHECKSUMS:
+  chipmunk-physics: b17be3c47c68f7f7a773ebc3d0a2341636da3c62
+  tinyxml: 41d718babd106ac5d39d4e98b43c835d3b9080d8
+
+COCOAPODS: 0.37.0

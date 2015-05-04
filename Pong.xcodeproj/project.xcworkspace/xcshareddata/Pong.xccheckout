@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>AD742915-4B73-4891-A02A-DDD44C770789</string>
+	<key>IDESourceControlProjectName</key>
+	<string>project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>78DF22222A1CA83EEB067D3FD219D4C1BD05FC9E</key>
+		<string>https://github.com/leethomason/tinyxml2.git</string>
+		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
+		<string>https://github.com/slembcke/Chipmunk2D.git</string>
+		<key>E4EC819DD510F9223696C47CC5C7A168CF8CEE05</key>
+		<string>github.com:giupo/Pong.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Pong.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>78DF22222A1CA83EEB067D3FD219D4C1BD05FC9E</key>
+		<string>../../tinyxml2</string>
+		<key>999D2B244F4BEADDDD09CD5EE2574031B24F399A</key>
+		<string>../..Chipmunk2D</string>
+		<key>E4EC819DD510F9223696C47CC5C7A168CF8CEE05</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:giupo/Pong.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E4EC819DD510F9223696C47CC5C7A168CF8CEE05</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E4EC819DD510F9223696C47CC5C7A168CF8CEE05</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Pong</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>999D2B244F4BEADDDD09CD5EE2574031B24F399A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PongChipmunk2D</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>78DF22222A1CA83EEB067D3FD219D4C1BD05FC9E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>tinyxml2</string>
+		</dict>
+	</array>
+</dict>
+</plist>

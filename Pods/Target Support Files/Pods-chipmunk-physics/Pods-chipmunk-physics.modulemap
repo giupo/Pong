@@ -1,0 +1,6 @@
+framework module include_chipmunk {
+  umbrella header "Pods-chipmunk-physics-umbrella.h"
+
+  export *
+  module * { export * }
+}

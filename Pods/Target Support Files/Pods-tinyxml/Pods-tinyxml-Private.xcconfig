@@ -1,0 +1,9 @@
+#include "Pods-tinyxml.xcconfig"
+CONFIGURATION_BUILD_DIR = $PODS_FRAMEWORK_BUILD_PATH
+FRAMEWORK_SEARCH_PATHS = "$PODS_FRAMEWORK_BUILD_PATH"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/tinyxml" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/chipmunk-physics" "${PODS_ROOT}/Headers/Public/chipmunk-physics/include/chipmunk" "${PODS_ROOT}/Headers/Public/chipmunk-physics/include/include/chipmunk" "${PODS_ROOT}/Headers/Public/chipmunk-physics/include/include/chipmunk/constraints" "${PODS_ROOT}/Headers/Public/tinyxml"
+OTHER_LDFLAGS = -ObjC
+PODS_FRAMEWORK_BUILD_PATH = $(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/Pods
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES
