@@ -3,13 +3,12 @@
 
 #include "tinyxml2.h"
 #include <vector>
+#include "component_types.hpp"
 #include "component_messages.hpp"
 
 using namespace tinyxml2;
 
 class Actor;
-
-typedef unsigned long ComponentId;
 
 class GameComponent {
 protected:

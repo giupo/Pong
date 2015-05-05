@@ -1,6 +1,6 @@
 #ifndef __COMPONENT_MESSAGES_HPP__
 #define __COMPONENT_MESSAGES_HPP__
-
+#include "component_types.hpp"
 #include "component.hpp"
 
 class GameComponent;
@@ -34,6 +34,7 @@ enum EVENTS {
 };
 
 typedef struct Message {
+  ComponentId id;
 	int type;
 	void* payload;
 } Message;

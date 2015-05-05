@@ -9,6 +9,8 @@
 #ifndef __Pong__component_types__
 #define __Pong__component_types__
 
+typedef unsigned long ComponentId;
+
 typedef enum {
   UNKNOWN_COMPONENT = 0,
   NULL_COMPONENT,

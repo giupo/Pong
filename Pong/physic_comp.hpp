@@ -21,7 +21,29 @@ protected:
 	cpShape* shape;
   cpVect* normal;
   cpVect startPosition;
-  
+  void refreshStatus() {
+    Message msg1;
+    msg1.type = NORMAL_VECTOR;
+    msg1.payload = normal;
+    msg1.id = this->getId();
+    
+    Message msg2;
+    cpVect position = getPosition();
+    msg2.type = PLAYER_POSITION;
+    msg2.payload = &position;
+    msg2.id = this->getId();
+    
+    Message msg3;
+    msg3.type = OTHER_POSITION;
+    msg3.payload = &position;
+    msg3.id = this->getId();
+    
+    for(const auto& comp: *observers) {
+      comp->onNotify(msg1);
+      comp->onNotify(msg2);
+      comp->onNotify(msg3);
+    }
+  }
 public:
   
   PhysicsComponent() {

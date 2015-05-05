@@ -71,22 +71,7 @@ void PhysicsComponent::destroy() {
 }
 
 inline void PhysicsComponent::update(double time) {
-  cpVect position = getPosition();
-  cpVect velocity = getVelocity();
-  Message msg1;
-  msg1.type = PLAYER_POSITION;
-  msg1.payload = &position;
-  Message msg2;
-  msg2.type = OTHER_POSITION;
-  msg2.payload = &position;
-  Message msg3;
-  msg3.type = OTHER_VELOCITY;
-  msg3.payload = &velocity;
-  for(const auto& comp: *observers) {
-    comp->onNotify(msg1);
-    comp->onNotify(msg2);
-    comp->onNotify(msg3);
-  }
+  refreshStatus();
 }
 
 Vect PhysicsComponent::getPosition() const {
@@ -103,9 +88,17 @@ inline void PhysicsComponent::onNotify(Message &message) {
   switch(message.type) {
     case PLAYER_IMPULSE: {
       cpVect impulse = (cpVect &) *message.payload;
+      std::cout <<"[" << message.id << " -> " << this->getId() << ", apply impulse: { " << impulse.x << ", " << impulse.y << "} ]" <<  std::endl;
       this->apply(impulse);
       break;
     }
+      
+    case PLAYER_POSITION: {
+      cpVect position = (cpVect &) *message.payload;
+      std::cout <<"[" << message.id << " -> " << this->getId() << ", set position: { " << position.x << ", " << position.y << "} ]" <<  std::endl;
+      cpBodySetPos( body, position );
+    }
+    
     default: {
       break;
     }
@@ -118,12 +111,7 @@ void PhysicsComponent::apply(const cpVect& j, const cpVect& r) {
 }
 
 void PhysicsComponent::post_init() {
-  Message msg1;
-  msg1.type = NORMAL_VECTOR;
-  msg1.payload = (void*) normal;
-  for(const auto& comp: *observers) {
-    comp->onNotify(msg1);
-  }
+  refreshStatus();
 }
 
 

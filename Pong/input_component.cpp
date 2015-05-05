@@ -33,6 +33,7 @@ void InputComponent::update(double time) {
   
   Message msg;
   msg.type = PLAYER_POSITION;
+  msg.id = this->getId();
   cpVect position = { double(ax)/1000, double(ay)/1000 };
   msg.payload = (void*) &position;
   

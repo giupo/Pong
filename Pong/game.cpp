@@ -87,15 +87,20 @@ void Game::loop() {
           
           if( event.user.code == 1 ) {
             cout << "vince 1"<<endl;
+            ++score1;
             resetActors();
             this->kick();
+            std::cout << "score1: " << score1 << ", score2: " << score2 << std::endl;
             continue;
           } else if ( event.user.code == 2 ) {
+            ++score2;
             cout << "vince 2"<< endl;
             resetActors();
             this->kick();
+            std::cout << "score1: " << score1 << ", score2: " << score2 << std::endl;
             continue;
           }
+          
           break;
         }
         case SDL_APP_TERMINATING: {
@@ -144,10 +149,11 @@ void Game::loop() {
     brainEngine->update( delta );
     physicEngine->update( delta );
     renderEngine->update( delta );
+    
     double end = timer.getTicks();
     delta = end - start;
-    
     renderEngine->sync( delta );
+    cout << "------------------ frame: " << renderEngine->getFrames() << "---------------------" << endl;
   }
 }
 
