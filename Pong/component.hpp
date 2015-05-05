@@ -36,6 +36,10 @@ public:
   }
   
   virtual void init( XMLNode *node ) =0;
+  virtual void reset() {
+  }
+  virtual void post_init() {
+  }
 	virtual void destroy() =0;
 	virtual void update( double time ) =0;
 	

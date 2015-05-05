@@ -5,7 +5,6 @@
 #include "locator.hpp"
 #include "util_functions.h"
 #include "game.hpp"
-#include "BallPhysicComponent.hpp"
 
 void PhysicsComponent::init(XMLNode *node) {
   XMLElement *element = node->ToElement();
@@ -36,6 +35,7 @@ void PhysicsComponent::init(XMLNode *node) {
     cpVect offset = { width/2, height/2 };
     body = cpBodyNew(mass, cpMomentForCircle(mass, radius, radius, offset));
     shape = cpCircleShapeNew(body, radius, offset);
+    shape->collision_type = 0;
   }
   
   cpShapeSetElasticity(shape, elasticity);
@@ -51,8 +51,8 @@ void PhysicsComponent::init(XMLNode *node) {
   cout << "y : " << y << endl;
   y = denormalizeY(y);
   cout << "y : " << y << endl;
-  
-  cpBodySetPos(body, {x, y});
+  startPosition = { x, y };
+  cpBodySetPos(body, startPosition);
   cpBodySetVel(body, {0, 0});
 }
 
@@ -65,41 +65,27 @@ void PhysicsComponent::destroy() {
 		cpShapeFree(shape);
 		shape = NULL;
 	}
-  if(nullptr != normal) {
+  if(NULL != normal) {
     delete normal;
   }
 }
 
 inline void PhysicsComponent::update(double time) {
   cpVect position = getPosition();
-  //Vect vel = getVelocity();
-  std::cout << "[" << owner->getID() << ", ";
-  std::cout << owner->getName() << "] position : ";
-  std::cout << position.x << ", " << position.y << std::endl;
-  
-  if( position.x < 0 ) {
-    position.x = 0;
-  }
-  
-  if( position.x > Game::width ) {
-    position.x = Game::width;
-  }
-  
-  if( position.y < 0 ) {
-    position.y = 0;
-  }
-  
-  if( position.y > Game::height ) {
-    position.y = Game::height;
-  }
-  
-  Message msg;
-  msg.type = PLAYER_POSITION;
-  
-  msg.payload = (void*) &position;
-  
+  cpVect velocity = getVelocity();
+  Message msg1;
+  msg1.type = PLAYER_POSITION;
+  msg1.payload = &position;
+  Message msg2;
+  msg2.type = OTHER_POSITION;
+  msg2.payload = &position;
+  Message msg3;
+  msg3.type = OTHER_VELOCITY;
+  msg3.payload = &velocity;
   for(const auto& comp: *observers) {
-    comp->onNotify(msg);
+    comp->onNotify(msg1);
+    comp->onNotify(msg2);
+    comp->onNotify(msg3);
   }
 }
 
@@ -113,30 +99,35 @@ Vect PhysicsComponent::getVelocity() const {
 	return vel;
 }
 
-void PhysicsComponent::onNotify(Message &message) {
+inline void PhysicsComponent::onNotify(Message &message) {
   switch(message.type) {
-    case PLAYER_POSITION: {
-      cpVect* v = (cpVect*) message.payload;
-      v->x = 0;
-      cpBodyApplyForce(body, *v, getPosition());
-      break;
-    }
-    case BALL_POSITION: {
-      BallPhysicComponent* pc = (BallPhysicComponent*) message.payload;
-      cpVect ballVelocity = pc->getVelocity();
-      float product = normal->x * ballVelocity.x + normal->y * ballVelocity.y;
-      ForwardedMessage fmsg = {message, this};
-      this->owner->forward(fmsg);
-      if(product < 0) {
-        // the ball is coming!!!
-        // go up
-      } else {
-        // go center.
-      }
+    case PLAYER_IMPULSE: {
+      cpVect impulse = (cpVect &) *message.payload;
+      this->apply(impulse);
       break;
     }
     default: {
       break;
     }
   }
+}
+
+
+void PhysicsComponent::apply(const cpVect& j, const cpVect& r) {
+  cpBodyApplyImpulse(body, j, r);
+}
+
+void PhysicsComponent::post_init() {
+  Message msg1;
+  msg1.type = NORMAL_VECTOR;
+  msg1.payload = (void*) normal;
+  for(const auto& comp: *observers) {
+    comp->onNotify(msg1);
+  }
+}
+
+
+void PhysicsComponent::reset() {
+  cpBodySetPos(body, startPosition);
+  cpBodySetVel(body, cpvzero);
 }

@@ -16,26 +16,26 @@ enum PlayerMessages {
   PLAYER_DOWN,
   PLAYER_LEFT,
   PLAYER_RIGHT,
-  PLAYER_POSITION
+  PLAYER_POSITION,
+  PLAYER_VELOCITY,
+  OTHER_POSITION,
+  OTHER_VELOCITY,
+  PLAYER_IMPULSE,
+  NORMAL_VECTOR
 };
 
 enum AIPlayerMessages {
   CENTER 
 };
 
+enum EVENTS {
+  EVENTO_VITTORIA_1 = 1213145,
+  EVENTO_VITTORIA_2
+};
+
 typedef struct Message {
 	int type;
 	void* payload;
 } Message;
-
-typedef struct ForwardedMessage {
-  ForwardedMessage(Message& msg, GameComponent* cmp) :
-    message(msg),
-    sender(cmp) {
-    
-  }
-  Message& message;
-  GameComponent *sender;
-} ForwardedMessage;
 
 #endif

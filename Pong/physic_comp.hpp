@@ -20,16 +20,20 @@ protected:
   cpBody* body;
 	cpShape* shape;
   cpVect* normal;
+  cpVect startPosition;
+  
 public:
   
   PhysicsComponent() {
     body = NULL;
     shape = NULL;
+    normal = NULL;
   }
   
 	PhysicsComponent(Actor* actor) {
     body = NULL;
     shape = NULL;
+    normal = NULL;
   }
   
 	~PhysicsComponent() {
@@ -41,8 +45,13 @@ public:
   virtual void init(XMLNode *node);
 	virtual void destroy();
 	virtual void update(double time);
+  virtual void reset();
 	virtual void onNotify(Message &message);
-
+  virtual void post_init();
+  virtual void apply(const cpVect& j,const cpVect& r);
+  virtual void apply(const cpVect& j) {
+    this->apply(j, cpvzero);
+  }
 
 	Vect getPosition() const;
 	Vect getVelocity() const;

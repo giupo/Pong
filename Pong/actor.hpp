@@ -42,7 +42,6 @@ public:
 	void init(XMLNode *node);
 	void update(double time);
   void destroy();
-  void forward(ForwardedMessage& msg);
   
 	ActorId getID() const {
 		return this->id;
@@ -52,6 +51,13 @@ public:
 		return this->name;
 	}
 	
+  void post_init() {
+    for(const auto& c: *components) {
+      c->post_init();
+    }
+  }
+  
+  void reset();
   static map<ComponentId, GameComponent*> compMap;
   
 protected:

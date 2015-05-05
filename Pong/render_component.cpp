@@ -1,7 +1,9 @@
 #include "render_component.hpp"
 #include "tinyxml2.h"
 #include "locator.hpp"
+#include "physic_comp.hpp"
 #include <cstdlib>
+
 using namespace tinyxml2;
 
 void RenderComponent::init(XMLNode* node) {
@@ -28,9 +30,9 @@ void RenderComponent::destroy() {
 void RenderComponent::onNotify( Message& message ) {
   switch( message.type ) {
     case PLAYER_POSITION: {
-      Vect* position = (Vect*) message.payload;
-      rect.x = position->x;
-      rect.y = position->y;
+      cpVect& position = (cpVect &) *message.payload;
+      rect.x = position.x;
+      rect.y = position.y;
       break;
     }
     default: {

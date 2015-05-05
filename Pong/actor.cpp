@@ -22,11 +22,6 @@ void Actor::init(XMLNode* node) {
     cout << "initializing " << name << ", id:" << id << endl;
     GameComponent* comp;
     switch(hashComponentName(name)) {
-      case NULL_COMPONENT: {
-        comp = &NullComponent::getInstance();
-        break;
-      }
-        
       case INPUT_COMPONENT: {
         comp = Locator::getBrainEngine()->createInputComponent();
         break;
@@ -40,11 +35,6 @@ void Actor::init(XMLNode* node) {
         }
         break;
       }
-        
-      case BALL_PHYSIC_COMPONENT: {
-        
-        break;
-      }
       
       case RENDER_COMPONENT: {
         comp = Locator::getRenderEngine()->create();
@@ -56,8 +46,10 @@ void Actor::init(XMLNode* node) {
         break;
       }
         
-      default:
+      default: {
         comp = &NullComponent::getInstance();
+      }
+        
     }
     comp->setOwner(this);
     comp->init(compdef);
@@ -80,10 +72,8 @@ void Actor::destroy() {
   }
 }
 
-void Actor::forward( ForwardedMessage &msg) {
-  for(const auto& comp: *components) {
-    if(msg.sender->getId() != comp->getId()) {
-      comp->onNotify(msg.message);
-    }
+void Actor::reset() {
+  for(const auto& c: *components) {
+    c->reset();
   }
 }

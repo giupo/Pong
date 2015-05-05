@@ -11,7 +11,6 @@
 
 const char* NULL_COMPONENT_NAME="nullComponent";
 const char* PHYSIC_COMPONENT_NAME="physicComponent";
-const char* BALL_PHYSIC_COMPONENT_NAME="ballPhysicComponent";
 const char* RENDER_COMPONENT_NAME="renderComponent";
 const char* INPUT_COMPONENT_NAME="inputComponent";
 const char* AI_COMPONENT_NAME="AIComponent";
@@ -29,8 +28,6 @@ ComponentTypes hashComponentName(const char* name) {
     type = PHYSIC_COMPONENT;
   } else if(0 == strcmp(name, NULL_COMPONENT_NAME)) {
     type = NULL_COMPONENT;
-  } else if(0 == strcmp(name, BALL_PHYSIC_COMPONENT_NAME)) {
-    type = BALL_PHYSIC_COMPONENT;
   }
             
   return type;

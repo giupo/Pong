@@ -1,7 +1,7 @@
 <resources>
   <player name="Player1" id="1">
-    <inputComponent id="1000"/>
-    <physicComponent id ="1001" x="0" y="0.5"
+    <AIComponent id="1000"/>
+    <physicComponent id ="1001" x="0.02" y="0.45"
                      mass="100" friction="1" width="60" height="20"
                     radius="0" type="box" elasticity="1"
                     nx="1.0" ny="0.0"/>
@@ -9,7 +9,7 @@
   </player>
   <player name="Player2" id="2">
     <AIComponent id="1003"/>
-    <physicComponent id="1004" x="0.1" y="0.5"
+    <physicComponent id="1004" x="0.95" y="0.45"
                       mass="100" friction="1" width="60" height="20"
                       radius="0" type="box" elasticity="1"
                       nx="-1.0" ny="0.0"/>
@@ -17,17 +17,20 @@
   </player>
   <player name="Ball" id="3">
     <nullComponent />
-    <ballPhysicComponent id="1007" x="0.5" y="0.5"
+    <physicComponent id="1007" x="0.5" y="0.45"
                       mass="10" friction="1" width="30" height="30"
                       radius="15" type="ball" elasticity="1"
                       nx="0.0" ny="0.0"/>
     <renderComponent id="1008" sprite="ball.png" />
   </player>
-  <notify from="1000" to="1001" /> <!-- input notify the physic to move object -->
+  <notify from="1000" to="1001" /> <!-- AI to notify physics on where to go -->
   <notify from="1001" to="1002" /> <!-- to draw things on screen -->
-  <notify from="1003" to="1004" />
-  <notify from="1004" to="1005" />
-  <notify from="1007" to="1008" />
+  <notify from="1003" to="1004" /> <!-- AI to notify physics on where to go -->
+  <notify from="1004" to="1005" /> <!-- physics to notify where to draw -->
+  <notify from="1007" to="1008" /> <!-- physics to notify where to draw -->
   <notify from="1007" to="1003" /> <!-- AI wants to see where the ball is -->
-  <notify from="1007" to="1004" /> <!-- AI wants to see where the ball is -->
+  <notify from="1007" to="1000" /> <!-- AI wants to see where the ball is -->
+  <notify from="1001" to="1000" /> <!-- AI wants to see where it is -->
+  <notify from="1004" to="1003" /> <!-- AI wants to see where it is -->
+  <kick max="5.0" min="1.0"/>
 </resources>

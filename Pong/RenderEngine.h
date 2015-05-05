@@ -49,6 +49,8 @@ public:
   
   void update(double time);
   void destroy();
+  
+  void write(std::string text, unsigned int size, SDL_Color& textColor, SDL_Rect& clip);
 };
 
 #endif /* defined(__Pong__RenderEngine__) */

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23DE02A51AF8FFFE0054F842 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23DE02A41AF8FFFE0054F842 /* SDL2_ttf.framework */; };
 		3024CDC61AE2A74500B5CAD0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024CDC51AE2A74500B5CAD0 /* QuartzCore.framework */; };
 		3024CE211AE2B30900B5CAD0 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024CE201AE2B30900B5CAD0 /* CoreFoundation.framework */; };
 		3024CE231AE2B33500B5CAD0 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3024CE221AE2B33500B5CAD0 /* ImageIO.framework */; };
@@ -14,7 +15,6 @@
 		304F0A9B1AF7EFCD00BA9519 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 304F0A9A1AF7EFCD00BA9519 /* Podfile */; };
 		304F0A9D1AF7FB3200BA9519 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304F0A9C1AF7FB3200BA9519 /* SDL2.framework */; };
 		304F0A9F1AF7FBB900BA9519 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 304F0A9E1AF7FBB900BA9519 /* SDL2_image.framework */; };
-		304F0AA21AF7FE8B00BA9519 /* BallPhysicComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 304F0AA01AF7FE8B00BA9519 /* BallPhysicComponent.cpp */; };
 		30A9A4101AE2A69200BD95A8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A9A40F1AE2A69200BD95A8 /* CoreAudio.framework */; };
 		30A9A4121AE2A69800BD95A8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A9A4111AE2A69800BD95A8 /* OpenGLES.framework */; };
 		30A9A4141AE2A6A500BD95A8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A9A4131AE2A6A500BD95A8 /* AudioToolbox.framework */; };
@@ -61,6 +61,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		23DE02A41AF8FFFE0054F842 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = "../sdl-ios-framework/build/sdl_ttf/SDL2_ttf.framework"; sourceTree = "<group>"; };
 		3024CDC51AE2A74500B5CAD0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3024CE201AE2B30900B5CAD0 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		3024CE221AE2B33500B5CAD0 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -68,8 +69,6 @@
 		304F0A9A1AF7EFCD00BA9519 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		304F0A9C1AF7FB3200BA9519 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "../projects/sdl-ios-framework/build/sdl/SDL2.framework"; sourceTree = "<group>"; };
 		304F0A9E1AF7FBB900BA9519 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = "../projects/sdl-ios-framework/build/sdl_image/SDL2_image.framework"; sourceTree = "<group>"; };
-		304F0AA01AF7FE8B00BA9519 /* BallPhysicComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BallPhysicComponent.cpp; path = src/BallPhysicComponent.cpp; sourceTree = SOURCE_ROOT; };
-		304F0AA11AF7FE8B00BA9519 /* BallPhysicComponent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BallPhysicComponent.hpp; path = src/BallPhysicComponent.hpp; sourceTree = SOURCE_ROOT; };
 		30A9A40F1AE2A69200BD95A8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		30A9A4111AE2A69800BD95A8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		30A9A4131AE2A6A500BD95A8 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -134,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23DE02A51AF8FFFE0054F842 /* SDL2_ttf.framework in Frameworks */,
 				304F0A9F1AF7FBB900BA9519 /* SDL2_image.framework in Frameworks */,
 				304F0A9D1AF7FB3200BA9519 /* SDL2.framework in Frameworks */,
 				30EF91531AE2B419001330CE /* MobileCoreServices.framework in Frameworks */,
@@ -174,6 +174,7 @@
 		3024CDC71AE2A79500B5CAD0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23DE02A41AF8FFFE0054F842 /* SDL2_ttf.framework */,
 				304F0A9E1AF7FBB900BA9519 /* SDL2_image.framework */,
 				304F0A9C1AF7FB3200BA9519 /* SDL2.framework */,
 				30EF91521AE2B418001330CE /* MobileCoreServices.framework */,
@@ -258,7 +259,6 @@
 				30CBC4AF1AF16FAD0074930C /* actor.cpp */,
 				30CBC4B01AF16FAD0074930C /* AIComponent.cpp */,
 				30CBC4B11AF16FAD0074930C /* BrainEngine.cpp */,
-				304F0AA01AF7FE8B00BA9519 /* BallPhysicComponent.cpp */,
 				30CBC4B21AF16FAD0074930C /* component_types.cpp */,
 				30CBC4B31AF16FAD0074930C /* component.cpp */,
 				30CBC4B41AF16FAD0074930C /* game.cpp */,
@@ -298,7 +298,6 @@
 				30CBC4AC1AF16F900074930C /* resource.hpp */,
 				30CBC4AD1AF16F900074930C /* timer.hpp */,
 				30CBC4AE1AF16F900074930C /* util_functions.h */,
-				304F0AA11AF7FE8B00BA9519 /* BallPhysicComponent.hpp */,
 			);
 			name = include;
 			sourceTree = "<group>";
@@ -476,7 +475,6 @@
 				30CBC4C51AF16FAE0074930C /* game.cpp in Sources */,
 				30CBC4CE1AF16FAE0074930C /* resource.cpp in Sources */,
 				30CBC4C11AF16FAE0074930C /* AIComponent.cpp in Sources */,
-				304F0AA21AF7FE8B00BA9519 /* BallPhysicComponent.cpp in Sources */,
 				30CBC4C21AF16FAE0074930C /* BrainEngine.cpp in Sources */,
 				30CBC4CA1AF16FAE0074930C /* physic_comp.cpp in Sources */,
 				30CBC4C01AF16FAE0074930C /* actor.cpp in Sources */,
@@ -616,6 +614,7 @@
 					"/Users/m024000/Documents/sdl-ios-framework/build/sdl_image",
 					"/Users/m024000/Documents/boost-xcode5-iosx/ios/framework",
 					/Users/giupo/Desktop,
+					"/Users/m024000/Documents/sdl-ios-framework/build/sdl_ttf",
 				);
 				INFOPLIST_FILE = Pong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -645,6 +644,7 @@
 					"/Users/m024000/Documents/sdl-ios-framework/build/sdl_image",
 					"/Users/m024000/Documents/boost-xcode5-iosx/ios/framework",
 					/Users/giupo/Desktop,
+					"/Users/m024000/Documents/sdl-ios-framework/build/sdl_ttf",
 				);
 				INFOPLIST_FILE = Pong/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

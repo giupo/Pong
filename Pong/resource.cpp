@@ -35,9 +35,29 @@ SDL_Texture* ResourceManager::getSurface(const char* name) {
   return surface;
 }
 
+TTF_Font* ResourceManager::getFont(const char* name, unsigned int size) {
+  TTF_Font* font;
+  string key = string(name) + string("-");
+  if(fontCache->find(key) == fontCache->end()) {
+    font = TTF_OpenFont(key.c_str(), size);
+    if(font == NULL) {
+      cout << "Unable to load font " << key << endl;
+      exit(1);
+    }
+    (*fontCache)[key] = font;
+  } else {
+    font = (*fontCache)[key];
+  }
+  return font;
+}
+
 void ResourceManager::purge() {
   map<string, SDL_Texture*>::iterator it;
   for(it = cache->begin(); it != cache->end(); ++it) {
     SDL_DestroyTexture(it->second);
+  }
+  map<string, TTF_Font*>::iterator itf;
+  for(itf = fontCache->begin(); itf != fontCache->end(); ++itf) {
+    TTF_CloseFont(itf->second);
   }
 }

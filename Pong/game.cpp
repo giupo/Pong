@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include <SDL2/SDL.h>
 #include "tinyxml2.h"
 
@@ -20,6 +21,8 @@ Game::Game(int width, int height) {
   activeActors = 0;
   Game::width = width;
   Game::height = height;
+  score1 = 0;
+  score2 = 0;
 }
 
 void Game::init() {
@@ -35,48 +38,24 @@ void Game::init() {
   
   
   // setup bounds
-  Locator::getPhysicEngine()->addStaticSegment(0, 0, Game::width, 0, 1., 1.); // sopra
-  Locator::getPhysicEngine()->addStaticSegment(0, Game::height, Game::width, Game::height + 30, 1., 1.); // sotto
-  Locator::getPhysicEngine()->addStaticSegment(0, 0, 0, Game::height, 1., 1.); // sinistra
-  Locator::getPhysicEngine()->addStaticSegment(Game::width, 0, Game::width, Game::height, 1., 1.); // destra
+  int pad_y = 60;
+  int pad_x = 60;
+  Locator::getPhysicEngine()->addStaticSegment(-pad_x, -pad_y,
+                                               Game::width+pad_x, -pad_y, 1., 1.); // sopra
+  Locator::getPhysicEngine()->addStaticSegment(-pad_x, Game::height -pad_y,
+                                               Game::width + pad_x, Game::height - pad_y,
+                                               1., 1.); // sotto
   
-  frames = 0;
-  XMLDocument doc;
-  const char* resourcePath = getResourcePath();
-  if (doc.LoadFile(resourcePath) != tinyxml2::XML_SUCCESS ) {
-    cout << "No valid resource found" << endl;
-    return;
-  }
   
-  XMLElement* resources, *player;
-  resources = doc.FirstChildElement("resources");
-  if(!resources) {
-    cout << "No valid resource found" << endl;
-    return;
-  }
-  player = resources->FirstChildElement("player");
+  Locator::getPhysicEngine()->addStaticSegment(-pad_x, 0-pad_y,
+                                               -pad_x, Game::height+pad_y,
+                                               1., 1.); // sinistra
   
-  while(player) {
-    if(activeActors >= MAX_ACTORS) {
-      cout << "Warning, your MAX_ACTORS should be raised" << endl;
-      return;
-    }
-    actors[activeActors++].init(player);
-    player = player->NextSiblingElement("player");
-  }
+  Locator::getPhysicEngine()->addStaticSegment(Game::width + pad_x, -pad_y,
+                                               Game::width + pad_y, Game::height+pad_y,
+                                               1., 1.); // destra
   
-  XMLElement *notifyDef = resources->FirstChildElement("notify");
-  while (notifyDef) {
-    ComponentId from = atoi(notifyDef->Attribute("from"));
-    ComponentId to = atoi(notifyDef->Attribute("to"));
-      
-    GameComponent* fromComp = Actor::compMap[from];
-    GameComponent* toComp = Actor::compMap[to];
-    
-    fromComp->addObserver(toComp);
-    
-    notifyDef = notifyDef->NextSiblingElement("notify");
-  }
+  this->reset();
   running = true;
 }
 
@@ -95,9 +74,6 @@ Game::~Game() {
 void Game::loop() {
   timer.start();
   
-  
-  
-  
   RenderEngine* renderEngine = Locator::getRenderEngine();
   PhysicEngine* physicEngine = Locator::getPhysicEngine();
   BrainEngine*  brainEngine  = Locator::getBrainEngine();
@@ -107,11 +83,27 @@ void Game::loop() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       switch (event.type) {
+        case SDL_USEREVENT: {
+          
+          if( event.user.code == 1 ) {
+            cout << "vince 1"<<endl;
+            resetActors();
+            this->kick();
+            continue;
+          } else if ( event.user.code == 2 ) {
+            cout << "vince 2"<< endl;
+            resetActors();
+            this->kick();
+            continue;
+          }
+          break;
+        }
         case SDL_APP_TERMINATING: {
           this->destroy();
           running = false;
           break;
         }
+
         case SDL_APP_LOWMEMORY: {
           Locator::getResourceManager()->purge();
           break;
@@ -152,7 +144,6 @@ void Game::loop() {
     brainEngine->update( delta );
     physicEngine->update( delta );
     renderEngine->update( delta );
-    
     double end = timer.getTicks();
     delta = end - start;
     
@@ -200,3 +191,81 @@ void Game::loop() {
       } // end switch
     }
 }*/
+
+void Game::reset() {
+  frames = 0;
+  XMLDocument doc;
+  const char* resourcePath = getResourcePath();
+  if (doc.LoadFile(resourcePath) != tinyxml2::XML_SUCCESS ) {
+    cout << "No valid resource found" << endl;
+    return;
+  }
+  
+  XMLElement* resources, *player;
+  resources = doc.FirstChildElement("resources");
+  if(!resources) {
+    cout << "No valid resource found" << endl;
+    return;
+  }
+  player = resources->FirstChildElement("player");
+  
+  while(player) {
+    if(activeActors >= MAX_ACTORS) {
+      cout << "Warning, your MAX_ACTORS should be raised" << endl;
+      return;
+    }
+    actors[activeActors++].init(player);
+    player = player->NextSiblingElement("player");
+  }
+  
+  XMLElement *notifyDef = resources->FirstChildElement("notify");
+  while (notifyDef) {
+    ComponentId from = atoi(notifyDef->Attribute("from"));
+    ComponentId to = atoi(notifyDef->Attribute("to"));
+    
+    GameComponent* fromComp = Actor::compMap[from];
+    GameComponent* toComp = Actor::compMap[to];
+    
+    fromComp->addObserver(toComp);
+    
+    notifyDef = notifyDef->NextSiblingElement("notify");
+  }
+  
+  for(int i=0; i<activeActors; i++) {
+    actors[i].post_init();
+  }
+  this->kick();
+}
+
+void Game::kick() {
+  XMLDocument doc;
+  const char* resourcePath = getResourcePath();
+  if (doc.LoadFile(resourcePath) != tinyxml2::XML_SUCCESS ) {
+    cout << "No valid resource found" << endl;
+    return;
+  }
+  XMLElement* resources;
+  resources = doc.FirstChildElement("resources");
+  if(!resources) {
+    cout << "No valid resource found" << endl;
+    return;
+  }
+
+  XMLElement *kickDef = resources->FirstChildElement("kick");
+  
+  cout << random(-1. , 1.) << endl;
+  int versox = random(-1.0,1.0) < 0 ? -1: 1;
+  int versoy = random(-1.0,1.0) < 0 ? -1: 1;
+  
+  cout << versox << endl;
+  cout << versoy << endl;
+  
+  cpFloat max = atof(kickDef->Attribute("min"));
+  cpFloat min = atof(kickDef->Attribute("max"));
+  cpFloat x = versox * random(min+1, max);
+  cpFloat y = versoy * random(min, max);
+  cpVect impulse = { x, y };
+  
+  PhysicsComponent& comp = (PhysicsComponent&) *Actor::compMap[1007];
+  comp.apply(impulse);
+}
