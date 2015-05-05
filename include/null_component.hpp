@@ -19,7 +19,7 @@ public:
   virtual void init(XMLNode *node);
   virtual void destroy();
   virtual void update(double time);
-  
+
   static NullComponent& getInstance()
   {
     static NullComponent instance; // Guaranteed to be destroyed.

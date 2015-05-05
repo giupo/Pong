@@ -23,10 +23,11 @@ class Game {
   Timer timer;
   long long frames;
   bool running;
-  
   const static unsigned int MAX_ACTORS = 3;
   Actor actors[MAX_ACTORS];
   int activeActors;
+  unsigned int score1;
+  unsigned int score2;
 public:
   static unsigned short width;
   static unsigned short height;
@@ -41,6 +42,20 @@ public:
   void loop();
   void destroy();
   void init();
+  void reset();
+  void kick();
+  
+  void incrementScore1() {
+    ++score1;
+  }
+  void incrementScore2() {
+    ++score2;
+  }
+  void resetActors() {
+    for(int i=0; i < activeActors; i++) {
+      actors[i].reset();
+    }
+  }
 };
 
 #endif

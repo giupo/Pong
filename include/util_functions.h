@@ -14,5 +14,5 @@ double getScreenHeight();
 const char* getResourcePath();
 double denormalizeX(double x);
 double denormalizeY(double y);
-
+double random(const double lower_bound, const double upper_bound);
 #endif

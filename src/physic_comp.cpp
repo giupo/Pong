@@ -1,6 +1,6 @@
 #include "physic_comp.hpp"
 
-#include "chipmunk/chipmunk.h"
+#include "chipmunk.h"
 #include "physic_engine.hpp"
 #include "locator.hpp"
 #include "util_functions.h"
@@ -9,6 +9,14 @@
 void PhysicsComponent::init(XMLNode *node) {
   XMLElement *element = node->ToElement();
   id = (ComponentId) atoi(element->Attribute("id"));
+  
+  
+  cpFloat nx = atof(element->Attribute("nx"));
+  cpFloat ny = atof(element->Attribute("ny"));
+  
+  normal = new cpVect;
+  normal->x = nx;
+  normal->y = ny;
   
   cpFloat mass = atof(element->Attribute("mass"));
   cpFloat width = atof(element->Attribute("width"));
@@ -19,13 +27,15 @@ void PhysicsComponent::init(XMLNode *node) {
 	cpSpace *space = Locator::getPhysicEngine()->getSpace();
 	
   std::string type(element->Attribute("type"));
+  //TODO: refactor sta merda.
   if(string("box").compare(type) == 0) {
     body = cpBodyNew(mass, cpMomentForBox(mass, width, height));
-    shape = cpBoxShapeNew(body, width, height, radius);
+    shape = cpBoxShapeNew(body, width, height);
   } else if (string("ball").compare(type) == 0) {
     cpVect offset = { width/2, height/2 };
     body = cpBodyNew(mass, cpMomentForCircle(mass, radius, radius, offset));
     shape = cpCircleShapeNew(body, radius, offset);
+    shape->collision_type = 0;
   }
   
   cpShapeSetElasticity(shape, elasticity);
@@ -41,9 +51,9 @@ void PhysicsComponent::init(XMLNode *node) {
   cout << "y : " << y << endl;
   y = denormalizeY(y);
   cout << "y : " << y << endl;
-  
-  cpBodySetPosition(body, {x, y});
-  cpBodySetVelocity(body, {0, 0});
+  startPosition = { x, y };
+  cpBodySetPos(body, startPosition);
+  cpBodySetVel(body, {0, 0});
 }
 
 void PhysicsComponent::destroy() {
@@ -55,63 +65,57 @@ void PhysicsComponent::destroy() {
 		cpShapeFree(shape);
 		shape = NULL;
 	}
+  if(NULL != normal) {
+    delete normal;
+  }
 }
 
 inline void PhysicsComponent::update(double time) {
-  cpVect position = getPosition();
-  //Vect vel = getVelocity();
-  std::cout << "[" << owner->getID() << ", ";
-  std::cout << owner->getName() << "] position : ";
-  std::cout << position.x << ", " << position.y << std::endl;
-  
-  if( position.x < 0 ) {
-    position.x = 0;
-  }
-  
-  if( position.x > Game::width ) {
-    position.x = Game::width;
-  }
-  
-  if( position.y < 0 ) {
-    position.y = 0;
-  }
-  
-  if( position.y > Game::height ) {
-    position.y = Game::height;
-  }
-  
-  Message msg;
-  msg.type = PLAYER_POSITION;
-  
-  msg.payload = (void*) &position;
-  
-  for(const auto& comp: *observers) {
-    comp->onNotify(msg);
-  }
-
+  refreshStatus();
 }
 
 Vect PhysicsComponent::getPosition() const {
-	Vect pos = cpBodyGetPosition(body);
+	Vect pos = cpBodyGetPos(body);
   return pos;
 }
 
 Vect PhysicsComponent::getVelocity() const {
-	Vect vel = cpBodyGetVelocity(body);
+	Vect vel = cpBodyGetVel(body);
 	return vel;
 }
 
-void PhysicsComponent::onNotify(Message &message) {
+inline void PhysicsComponent::onNotify(Message &message) {
   switch(message.type) {
-    case PLAYER_POSITION: {
-      cpVect* v = (cpVect*) message.payload;
-      v->x = 0;
-      cpBodyApplyForceAtWorldPoint(body, *v, getPosition());
-  
+    case PLAYER_IMPULSE: {
+      cpVect impulse = (cpVect &) *message.payload;
+      std::cout <<"[" << message.id << " -> " << this->getId() << ", apply impulse: { " << impulse.x << ", " << impulse.y << "} ]" <<  std::endl;
+      this->apply(impulse);
       break;
     }
+      
+    case PLAYER_POSITION: {
+      cpVect position = (cpVect &) *message.payload;
+      std::cout <<"[" << message.id << " -> " << this->getId() << ", set position: { " << position.x << ", " << position.y << "} ]" <<  std::endl;
+      cpBodySetPos( body, position );
+    }
+    
     default: {
       break;
     }
   }
+}
+
+
+void PhysicsComponent::apply(const cpVect& j, const cpVect& r) {
+  cpBodyApplyImpulse(body, j, r);
+}
+
+void PhysicsComponent::post_init() {
+  refreshStatus();
+}
+
+
+void PhysicsComponent::reset() {
+  cpBodySetPos(body, startPosition);
+  cpBodySetVel(body, cpvzero);
 }

@@ -1,7 +1,6 @@
 #include "actor.hpp"
 #include "component.hpp"
 #include "locator.hpp"
-#include <boost/range/adaptor/map.hpp>
 #include "tinyxml2.h"
 #include <iostream>
 #include <map>
@@ -20,13 +19,9 @@ void Actor::init(XMLNode* node) {
   XMLElement* compdef = node->FirstChildElement();
   while(compdef) {
     const char* name = compdef->Name();
+    cout << "initializing " << name << ", id:" << id << endl;
     GameComponent* comp;
     switch(hashComponentName(name)) {
-      case NULL_COMPONENT: {
-        comp = &NullComponent::getInstance();
-        break;
-      }
-        
       case INPUT_COMPONENT: {
         comp = Locator::getBrainEngine()->createInputComponent();
         break;
@@ -40,7 +35,7 @@ void Actor::init(XMLNode* node) {
         }
         break;
       }
-        
+      
       case RENDER_COMPONENT: {
         comp = Locator::getRenderEngine()->create();
         break;
@@ -51,8 +46,10 @@ void Actor::init(XMLNode* node) {
         break;
       }
         
-      default:
+      default: {
         comp = &NullComponent::getInstance();
+      }
+        
     }
     comp->setOwner(this);
     comp->init(compdef);
@@ -72,5 +69,11 @@ void Actor::update(double time) {
 void Actor::destroy() {
   for(const auto& c: *components) {
     c->destroy();
+  }
+}
+
+void Actor::reset() {
+  for(const auto& c: *components) {
+    c->reset();
   }
 }

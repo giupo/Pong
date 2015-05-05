@@ -9,7 +9,7 @@
 #ifndef __Pong__RenderEngine__
 #define __Pong__RenderEngine__
 
-#include "chipmunk/chipmunk.h"
+#include "chipmunk.h"
 #include "tinyxml2.h"
 #include "physic_comp.hpp"
 #include <SDL2/SDL.h>
@@ -49,6 +49,8 @@ public:
   
   void update(double time);
   void destroy();
+  
+  void write(std::string text, unsigned int size, SDL_Color& textColor, SDL_Rect& clip);
 };
 
 #endif /* defined(__Pong__RenderEngine__) */

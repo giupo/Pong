@@ -7,14 +7,17 @@
 //
 
 #include "RenderEngine.h"
+#include <SDL2_ttf/SDL_ttf.h>
+#include "locator.hpp"
 
 RenderEngine::RenderEngine(int width, int height) {
   activeComponents = 0;
   if ( SDL_Init( SDL_INIT_VIDEO  ) < 0 ) {
-    printf( "Unable to init SDL: %s\n", SDL_GetError() );
+    std::cout << "Unable to init SDL: " << SDL_GetError() << std::endl;
     exit(1);
   }
-  // make sure SDL cleans up before exit
+  
+    // make sure SDL cleans up before exit
   window = SDL_CreateWindow("Pong",
                           SDL_WINDOWPOS_UNDEFINED,
                           SDL_WINDOWPOS_UNDEFINED,
@@ -72,5 +75,10 @@ void RenderEngine::sync(double delta) {
     UInt32 timeToWait = SCREEN_TICKS_PER_FRAME - delta;
     SDL_Delay( timeToWait );
   }
+}
+
+void RenderEngine::write(std::string text, unsigned int size, SDL_Color& textColor, SDL_Rect& clip) {
+  TTF_Font* font = Locator::getResourceManager()->getFont("cippalippa", size);
+  SDL_Surface* message = TTF_RenderText_Solid( font, "The quick brown fox jumps over the lazy dog", textColor );
 }
 

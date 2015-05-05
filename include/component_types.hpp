@@ -9,13 +9,16 @@
 #ifndef __Pong__component_types__
 #define __Pong__component_types__
 
+typedef unsigned long ComponentId;
+
 typedef enum {
   UNKNOWN_COMPONENT = 0,
   NULL_COMPONENT,
   PHYSIC_COMPONENT,
   RENDER_COMPONENT,
   INPUT_COMPONENT,
-  AI_COMPONENT
+  AI_COMPONENT,
+  BALL_PHYSIC_COMPONENT
 } ComponentTypes;
 
 ComponentTypes hashComponentName(const char* name);

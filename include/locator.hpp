@@ -6,9 +6,25 @@
 #include "physic_engine.hpp"
 #include "RenderEngine.h"
 #include "BrainEngine.h"
+#include "ThreadPool.hpp"
+
+class EventQueue;
+class Game;
 
 class Locator {
 public:
+  
+  static Game* getGame() {
+    return game_;
+  }
+  
+  static EventQueue* getEventQueue() {
+    return eventQueue_;
+  }
+  
+  static ThreadPool* getThreadPool() {
+    return threadPool_;
+  }
   
   static BrainEngine* getBrainEngine() {
     return brainEngine_;
@@ -42,10 +58,23 @@ public:
     brainEngine_ = brainEngine;
   }
 
+  static void provide(ThreadPool* threadPool) {
+    threadPool_ = threadPool;
+  }
+  
+  static void provide(EventQueue* eventQueue) {
+    eventQueue_ = eventQueue;
+  }
+  
+  static void provide(Game* game) {
+    game_ = game;
+  }
 	static void destroy() {
-		delete resourceManager_;
-		delete physicEngine_;
     delete renderEngine_;
+    delete brainEngine_;
+    delete physicEngine_;
+    delete threadPool_;
+    delete resourceManager_;
 	}
 	
 private:
@@ -54,6 +83,9 @@ private:
 	static RenderEngine* renderEngine_;
 	static PhysicEngine* physicEngine_;
   static BrainEngine* brainEngine_;
+  static ThreadPool* threadPool_;
+  static EventQueue* eventQueue_;
+  static Game* game_;
 };
 
 #endif

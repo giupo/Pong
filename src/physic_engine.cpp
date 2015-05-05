@@ -1,5 +1,5 @@
 #include "physic_engine.hpp"
-#include "chipmunk/chipmunk.h"
+#include "chipmunk.h"
 #include "physic_comp.hpp"
 
 void PhysicEngine::update(double time) {	
@@ -24,11 +24,12 @@ PhysicsComponent* PhysicEngine::create() {
   return &components[activeComponents++];
 }
 
-
 void PhysicEngine::addStaticSegment(int xi, int yi, int xf, int yf, double friction, double elasticity) {
   cpBody* sb = cpBodyNewStatic();
   cpShape* segment = cpSegmentShapeNew(sb, cpv(xi, yi), cpv(xf, yf), 0);
+  segment->collision_type = 1;
   cpShapeSetFriction(segment, friction);
   cpShapeSetElasticity(segment, elasticity);
   cpSpaceAddShape(space, segment);
+  cpSpaceAddCollisionHandler(space, 0, 1, collisionDetection, NULL, NULL, NULL, NULL);
 }

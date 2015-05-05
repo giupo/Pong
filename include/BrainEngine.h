@@ -15,7 +15,7 @@
 
 class BrainEngine {
 private:
-  static const unsigned int MAX_COMPONENTS = 1;
+  static const unsigned int MAX_COMPONENTS = 3;
   AIComponent ai[MAX_COMPONENTS];
   InputComponent components[MAX_COMPONENTS];
   

@@ -32,7 +32,8 @@ public:
 	virtual void init( XMLNode* node );
 	virtual void destroy();
 	virtual void update( double time );
-  
+  virtual void onNotify( Message &msg ) {
+  }
 };
 
 #endif

@@ -10,6 +10,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <UIKit/UIKit.h>
 #include <string>
+#include <random>
 
 static inline CGSize getScreenSize() {
   CGRect screenBounds = [[UIScreen mainScreen] bounds];
@@ -30,7 +31,7 @@ double getScreenHeight() {
 
 const char* getResourcePath() {
   NSString *path = [[NSBundle mainBundle] pathForResource:@"resources" ofType:@"xml"];
-  NSLog(@"%@", path);
+  //NSLog(@"%@", path);
   return [path UTF8String];
 }
 
@@ -40,4 +41,11 @@ double denormalizeX(double x) {
 
 double denormalizeY(double y) {
   return y * getScreenHeight();
+}
+
+double random(const double lower_bound, const double upper_bound) {
+  std::random_device rand_dev;
+  std::mt19937       generator(rand_dev());
+  std::uniform_real_distribution<double> unif(lower_bound,upper_bound);
+  return unif(generator);
 }
